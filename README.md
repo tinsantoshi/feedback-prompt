@@ -2,9 +2,6 @@
 
 A component for LangChain that provides real-time feedback on prompts as users type them. This helps users craft more effective prompts for LLMs by providing immediate guidance and suggestions.
 
-![GitHub](https://img.shields.io/github/license/yourusername/langchain-prompt-feedback)
-![npm](https://img.shields.io/npm/v/langchain-prompt-feedback)
-![GitHub stars](https://img.shields.io/github/stars/yourusername/langchain-prompt-feedback?style=social)
 
 ## Features
 
