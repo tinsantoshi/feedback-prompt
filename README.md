@@ -1,170 +1,68 @@
-# LangChain Real-Time Prompt Feedback Component
+# LangChain Prompt Feedback - Streamlit App
 
-A component for LangChain that provides real-time feedback on prompts as users type them. This helps users craft more effective prompts for LLMs by providing immediate guidance and suggestions.
-
+This repository contains a Streamlit application that demonstrates the LangChain Prompt Feedback Component. The app provides real-time feedback on prompts for large language models, helping users craft more effective prompts.
 
 ## Features
 
-- ✅ Real-time feedback on prompt quality as users type
-- ✅ Evaluation based on configurable criteria
-- ✅ Suggestions for prompt improvements
-- ✅ Support for both heuristic and LLM-based evaluation
-- ✅ Streaming API for responsive UI integration
-- ✅ Compatible with both string prompts and chat prompts
-- ✅ Customizable feedback criteria
+- ✅ Real-time prompt quality evaluation
+- ✅ Detailed feedback on prompt strengths and weaknesses
+- ✅ Suggestions for improvement
+- ✅ Improved prompt generation
+- ✅ History tracking of previous prompts
+- ✅ Support for multiple OpenAI models
 
-## Installation
+## Deployment
 
-```bash
-npm install langchain-prompt-feedback
-```
+This app is designed to be deployed on Streamlit Cloud. For detailed deployment instructions, see the [Deployment Guide](deployment_guide.md).
 
-## Quick Start
+### Quick Start
 
-```typescript
-import { PromptFeedbackChain } from 'langchain-prompt-feedback';
-import { createFeedbackCriteria } from 'langchain-prompt-feedback';
+1. Fork this repository
+2. Sign up for [Streamlit Cloud](https://streamlit.io/cloud) using your GitHub account
+3. Deploy this app from your forked repository
+4. Add your OpenAI API key in the Streamlit Cloud secrets management
 
-// Create feedback criteria
-const criteria = createFeedbackCriteria({
-  clarity: true,
-  context: true,
-  constraints: true,
-  examples: true,
-  format: true
-});
+## Local Development
 
-// Create the feedback chain
-const feedbackChain = new PromptFeedbackChain({
-  criteria,
-  useLLM: true, // Set to false to use only heuristic evaluation
-  debounceTime: 300
-});
+To run this app locally:
 
-// Process a prompt and get feedback
-const result = await feedbackChain.call({ input: "Tell me about AI" });
-console.log(result.feedback);
-```
+1. Clone the repository
+2. Install dependencies:
+   ```
+   pip install -r requirements.txt
+   ```
+3. Run the app:
+   ```
+   streamlit run streamlit_app.py
+   ```
 
-## Using the Streaming API
+## Configuration
 
-```typescript
-// Subscribe to feedback events
-const subscription = feedbackChain.streamFeedback("What are the best practices for prompt engineering?")
-  .subscribe(event => {
-    console.log(`Event type: ${event.type}`);
-    console.log(`Feedback: ${JSON.stringify(event.feedback)}`);
-    
-    if (event.type === 'complete') {
-      subscription.unsubscribe();
-    }
-  });
-```
+The app can be configured through the sidebar:
 
-## React Integration
+- **API Key**: Enter your OpenAI API key (or configure it in Streamlit Cloud secrets)
+- **Feedback Criteria**: Select which aspects of prompts to evaluate
+- **LLM Settings**: Choose whether to use LLM-based evaluation and which model to use
+- **Debounce Time**: Adjust the responsiveness of the feedback
 
-```tsx
-import React, { useState, useEffect } from 'react';
-import { PromptFeedbackChain } from 'langchain-prompt-feedback';
+## How It Works
 
-const PromptInput = () => {
-  const [prompt, setPrompt] = useState('');
-  const [feedback, setFeedback] = useState(null);
-  const feedbackChainRef = React.useRef(null);
-  
-  // Initialize the feedback chain
-  useEffect(() => {
-    feedbackChainRef.current = new PromptFeedbackChain({
-      criteria: {
-        clarity: true,
-        context: true,
-        constraints: true,
-        examples: true,
-        format: true
-      },
-      useLLM: true,
-      debounceTime: 500
-    });
-    
-    // Subscribe to feedback events
-    const subscription = feedbackChainRef.current.getFeedbackHandler()
-      .getFeedbackStream()
-      .subscribe(event => {
-        if (event.type === 'complete') {
-          setFeedback(event.feedback);
-        }
-      });
-      
-    return () => subscription.unsubscribe();
-  }, []);
-  
-  const handlePromptChange = (e) => {
-    const newPrompt = e.target.value;
-    setPrompt(newPrompt);
-    
-    if (newPrompt.length > 5 && feedbackChainRef.current) {
-      feedbackChainRef.current.getFeedbackHandler().processInput(newPrompt);
-    }
-  };
-  
-  return (
-    <div>
-      <textarea 
-        value={prompt} 
-        onChange={handlePromptChange} 
-        placeholder="Type your prompt here..."
-      />
-      
-      {feedback && (
-        <div>
-          <h3>Prompt Score: {feedback.score}/100</h3>
-          
-          {feedback.strengths.length > 0 && (
-            <div>
-              <h4>Strengths:</h4>
-              <ul>
-                {feedback.strengths.map((s, i) => <li key={i}>{s}</li>)}
-              </ul>
-            </div>
-          )}
-          
-          {feedback.suggestions.length > 0 && (
-            <div>
-              <h4>Suggestions:</h4>
-              <ul>
-                {feedback.suggestions.map((s, i) => <li key={i}>{s}</li>)}
-              </ul>
-            </div>
-          )}
-        </div>
-      )}
-    </div>
-  );
-};
-```
+The app uses the LangChain Prompt Feedback Component to evaluate prompts based on:
 
-## Documentation
+1. **Clarity**: Is the prompt clear and specific?
+2. **Context**: Does it provide necessary context?
+3. **Constraints**: Does it specify constraints?
+4. **Examples**: Does it include examples if needed?
+5. **Format**: Does it specify desired output format?
 
-- [API Reference](API.md)
-- [Architecture](docs/architecture.md)
-- [Requirements](docs/requirements.md)
-- [Feedback Workflow](docs/feedback_workflow.md)
-- [Deployment Guide](deployment-guide-html.zip)
+For each prompt, the app provides:
 
-## Examples
-
-- [Basic Usage](examples/basic-usage.ts)
-- [React Integration](examples/react-integration.tsx)
-
-## Contributing
-
-Contributions are welcome! Please read our [Contributing Guide](CONTRIBUTING.md) for details on our code of conduct and the process for submitting pull requests.
+- An overall quality score
+- Identified strengths
+- Areas for improvement
+- Specific suggestions
+- An improved version of the prompt
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-- LangChain team for creating the amazing framework
-- All contributors who have helped with code, documentation, and testing
+This project is licensed under the MIT License - see the LICENSE file for details.

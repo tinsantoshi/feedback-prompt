@@ -1,0 +1,148 @@
+/* Custom CSS for the LangChain Prompt Feedback Streamlit App */
+
+/* Main container styling */
+.main .block-container {
+    padding-top: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Header styling */
+h1 {
+    color: #FF4B4B;
+    font-weight: 700;
+}
+
+h2 {
+    color: #FF4B4B;
+    font-weight: 600;
+}
+
+h3 {
+    font-weight: 600;
+}
+
+/* Score styling */
+.score-container {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.score-high {
+    background-color: rgba(0, 128, 0, 0.1);
+    border-left: 5px solid green;
+}
+
+.score-medium {
+    background-color: rgba(255, 165, 0, 0.1);
+    border-left: 5px solid orange;
+}
+
+.score-low {
+    background-color: rgba(255, 0, 0, 0.1);
+    border-left: 5px solid red;
+}
+
+/* Feedback item styling */
+.feedback-item {
+    padding: 0.5rem;
+    border-radius: 0.3rem;
+    margin-bottom: 0.5rem;
+}
+
+.strength {
+    background-color: rgba(0, 128, 0, 0.05);
+    border-left: 3px solid green;
+}
+
+.weakness {
+    background-color: rgba(255, 0, 0, 0.05);
+    border-left: 3px solid red;
+}
+
+.suggestion {
+    background-color: rgba(0, 0, 255, 0.05);
+    border-left: 3px solid blue;
+}
+
+/* Button styling */
+.stButton > button {
+    background-color: #FF4B4B;
+    color: white;
+    border: none;
+    border-radius: 0.3rem;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+}
+
+.stButton > button:hover {
+    background-color: #E03B3B;
+}
+
+/* Text area styling */
+.stTextArea > div > div > textarea {
+    border: 1px solid #ddd;
+    border-radius: 0.3rem;
+}
+
+/* Expander styling */
+.streamlit-expanderHeader {
+    font-weight: 600;
+    color: #FF4B4B;
+}
+
+/* History item styling */
+.history-item {
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+/* Footer styling */
+footer {
+    text-align: center;
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ddd;
+}
+
+/* Sidebar styling */
+.css-1d391kg {
+    padding-top: 2rem;
+}
+
+/* Custom checkbox styling */
+.stCheckbox label {
+    font-weight: 500;
+}
+
+/* Custom selectbox styling */
+.stSelectbox label {
+    font-weight: 500;
+}
+
+/* Custom slider styling */
+.stSlider label {
+    font-weight: 500;
+}
+
+/* Responsive adjustments for mobile */
+@media (max-width: 768px) {
+    .main .block-container {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.2rem;
+    }
+}
