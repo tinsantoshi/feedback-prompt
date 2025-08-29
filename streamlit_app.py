@@ -1,7 +1,5 @@
 import streamlit as st
 import os
-from langchain.llms import OpenAI
-from langchain.chat_models import ChatOpenAI
 import sys
 import json
 from datetime import datetime
@@ -15,14 +13,14 @@ st.set_page_config(
 
 # Load custom CSS
 def load_css():
-    with open("style.css") as f:
-        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    try:
+        with open("style.css") as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+    except:
+        pass
 
-# Try to load CSS, but don't fail if the file doesn't exist
-try:
-    load_css()
-except:
-    pass
+# Try to load CSS
+load_css()
 
 # App title and description
 st.title("✨ LangChain Prompt Feedback Tool")
@@ -34,6 +32,30 @@ Type your prompt in the text area below and receive instant feedback on its qual
 # Initialize session state for history
 if 'history' not in st.session_state:
     st.session_state.history = []
+
+# Handle LangChain imports with compatibility for different versions
+try:
+    # Try importing from langchain_community (newer versions)
+    from langchain_community.chat_models import ChatOpenAI
+    from langchain_community.llms import OpenAI
+    st.sidebar.success("✅ Using LangChain Community modules")
+except ImportError:
+    try:
+        # Try importing from langchain (older versions)
+        from langchain.chat_models import ChatOpenAI
+        from langchain.llms import OpenAI
+        st.sidebar.success("✅ Using LangChain legacy modules")
+    except ImportError:
+        st.error("""
+        Failed to import LangChain modules. 
+        
+        Please make sure you have installed either:
+        1. `langchain` and `langchain_community` (for newer versions)
+        2. `langchain` (for older versions)
+        
+        Run: `pip install langchain langchain_community`
+        """)
+        st.stop()
 
 # Import our component - handle both direct import and relative import scenarios
 try:
